@@ -47,4 +47,21 @@ describe("Authenticate user use case", () => {
       })
     }).rejects.toBeInstanceOf(IncorrectEmailOrPasswordError)
   })
+
+  it("Should not be able to authenticate an user if the password provided is incorrect", () => {
+    expect(async () => {
+      let user = {
+        name: "Abel Souza Costa Junior",
+        email: "abelsouzacosta@gmail.com",
+        password: "123456"
+      };
+
+      await create.execute(user);
+
+      await authenticate.execute({
+        email: user.email,
+        password: "another",
+      })
+    }).rejects.toBeInstanceOf(IncorrectEmailOrPasswordError)
+  })
 });
